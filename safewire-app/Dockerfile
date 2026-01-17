@@ -41,6 +41,9 @@ COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
 
+# Skip env validation during build (runtime vars not available at build time)
+ENV SKIP_ENV_VALIDATION=true
+
 # Build arguments for build-time environment variables
 # These are baked into the bundle and safe to expose
 ARG NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY

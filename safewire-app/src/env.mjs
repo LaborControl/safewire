@@ -49,4 +49,6 @@ export const env = createEnv({
     SCW_ENDPOINT: process.env.SCW_ENDPOINT,
     SCW_REGISTRY: process.env.SCW_REGISTRY,
   },
+  // Skip validation during Docker build (set SKIP_ENV_VALIDATION=true)
+  skipValidation: process.env.SKIP_ENV_VALIDATION === "true",
 });
