@@ -6,20 +6,36 @@ import {
   text,
   timestamp,
 } from "drizzle-orm/pg-core";
-import { drizzle } from "drizzle-orm/postgres-js";
+import { drizzle, type PostgresJsDatabase } from "drizzle-orm/postgres-js";
 import type { AdapterAccountType } from "next-auth/adapters";
 import postgres from "postgres";
 
-const connectionString = process.env.DATABASE_URL;
-
-if (!connectionString) {
-  throw new Error(
-    "DATABASE_URL environment variable is not set. Please configure your database connection."
-  );
+/**
+ * Lazy-initialized database connection
+ * Throws error if DATABASE_URL is not configured at runtime
+ */
+function createDbClient(): PostgresJsDatabase {
+  const connectionString = process.env.DATABASE_URL;
+  if (!connectionString) {
+    throw new Error(
+      "DATABASE_URL environment variable is not set. Please configure your database connection."
+    );
+  }
+  const sql = postgres(connectionString);
+  return drizzle(sql);
 }
 
-const sql = postgres(connectionString);
-export const db = drizzle(sql);
+// Lazy initialization - only create connection when accessed
+let _db: PostgresJsDatabase | null = null;
+
+export const db: PostgresJsDatabase = new Proxy({} as PostgresJsDatabase, {
+  get(_target, prop) {
+    if (!_db) {
+      _db = createDbClient();
+    }
+    return _db[prop as keyof PostgresJsDatabase];
+  },
+});
 
 export const users = pgTable("users", {
   id: text("id")
