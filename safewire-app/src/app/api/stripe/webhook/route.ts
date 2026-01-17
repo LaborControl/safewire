@@ -7,6 +7,14 @@ import { db, users } from "@/lib/schema";
 import { stripeServer } from "@/lib/stripe";
 
 const webhookHandler = async (req: NextRequest) => {
+  // Return early if Stripe is not configured
+  if (!env.STRIPE_WEBHOOK_SECRET_KEY) {
+    return NextResponse.json(
+      { error: { message: "Stripe not configured" } },
+      { status: 503 },
+    );
+  }
+
   try {
     const buf = await req.text();
     const sig = req.headers.get("stripe-signature")!;
