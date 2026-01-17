@@ -1,0 +1,163 @@
+# generated: 2026-01-17
+# project: IOT START SAFEWIRE
+# project_key: safewire
+# tracking_system: file-system
+# story_location: _bmad-output/implementation-artifacts
+
+# STATUS DEFINITIONS:
+# ==================
+# Epic Status:
+#   - backlog: Epic not yet started
+#   - in-progress: Epic actively being worked on
+#   - done: All stories in epic completed
+#
+# Epic Status Transitions:
+#   - backlog → in-progress: Automatically when first story is created (via create-story)
+#   - in-progress → done: Manually when all stories reach 'done' status
+#
+# Story Status:
+#   - backlog: Story only exists in epic file
+#   - ready-for-dev: Story file created in stories folder
+#   - in-progress: Developer actively working on implementation
+#   - review: Ready for code review (via Dev's code-review workflow)
+#   - done: Story completed
+#
+# Retrospective Status:
+#   - optional: Can be completed but not required
+#   - done: Retrospective has been completed
+#
+# WORKFLOW NOTES:
+# ===============
+# - Epic transitions to 'in-progress' automatically when first story is created
+# - Stories can be worked in parallel if team capacity allows
+# - SM typically creates next story after previous one is 'done' to incorporate learnings
+# - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
+
+generated: 2026-01-17
+project: IOT START SAFEWIRE
+project_key: safewire
+tracking_system: file-system
+story_location: _bmad-output/implementation-artifacts
+
+development_status:
+  # Epic 0: Foundation & Infrastructure Setup
+  epic-0: in-progress
+  0-1-initialize-nextjs-starter-template: done
+  0-2-configure-scaleway-infrastructure: done
+  0-3-setup-ci-cd-pipeline: in-progress
+  0-4-create-base-drizzle-schema: backlog
+  0-5-configure-authentication-foundation: backlog
+  0-6-setup-design-system-foundation: backlog
+  epic-0-retrospective: optional
+
+  # Epic 1: Authentication & User Access Control
+  epic-1: backlog
+  1-1-user-invitation-by-admin: backlog
+  1-2-internal-user-login-with-email-mfa: backlog
+  1-3-external-user-access-via-magic-link: backlog
+  1-4-magic-link-regeneration: backlog
+  1-5-role-based-permissions-system: backlog
+  1-6-manufacturer-data-isolation: backlog
+  1-7-user-access-history: backlog
+  1-8-admin-audit-trail: backlog
+  epic-1-retrospective: optional
+
+  # Epic 2: Document Management (GED)
+  epic-2: backlog
+  2-1-document-upload-to-object-storage: backlog
+  2-2-automatic-document-versioning: backlog
+  2-3-validation-workflow-definition: backlog
+  2-4-document-approval-or-rejection: backlog
+  2-5-electronic-signature-with-yousign: backlog
+  2-6-manufacturer-document-access: backlog
+  2-7-invisible-pdf-watermarking: backlog
+  2-8-pdf-a-3-archival-format: backlog
+  epic-2-retrospective: optional
+
+  # Epic 3: Budget & Expense Management
+  epic-3: backlog
+  3-1-create-budget-categories: backlog
+  3-2-manual-expense-entry: backlog
+  3-3-automatic-invoice-import-from-email: backlog
+  3-4-expense-validation-by-moa: backlog
+  3-5-one-click-magic-link-validation: backlog
+  3-6-expense-history-by-category: backlog
+  3-7-budget-threshold-alerts: backlog
+  epic-3-retrospective: optional
+
+  # Epic 4: Project Tracking & Earned Value
+  epic-4: backlog
+  4-1-gantt-chart-visualization: backlog
+  4-2-budget-consumption-by-category: backlog
+  4-3-unified-earned-value-view: backlog
+  4-4-end-of-project-projections: backlog
+  4-5-schedule-vs-cost-variance-display: backlog
+  4-6-moa-planning-adjustment-validation: backlog
+  4-7-custom-alert-threshold-configuration: backlog
+  epic-4-retrospective: optional
+
+  # Epic 5: Agent IA Conversationnel
+  epic-5: backlog
+  5-1-chat-interface-with-streaming: backlog
+  5-2-chat-bubbles-and-message-history: backlog
+  5-3-email-parsing-and-document-ingestion: backlog
+  5-4-automatic-document-categorization: backlog
+  5-5-quote-comparison-generation: backlog
+  5-6-predictive-alerts-based-on-trends: backlog
+  5-7-corrective-action-suggestions: backlog
+  5-8-supervision-mode-preview-before-send: backlog
+  5-9-weekly-project-health-reports: backlog
+  5-10-document-compliance-analysis: backlog
+  5-11-graceful-degradation-mode: backlog
+  5-12-automatic-document-versioning: backlog
+  epic-5-retrospective: optional
+
+  # Epic 6: Notifications & Communication
+  epic-6: backlog
+  6-1-email-notifications-from-agent-ia: backlog
+  6-2-push-notifications-progressive-web-app: backlog
+  6-3-automated-investor-weekly-reports: backlog
+  6-4-automatic-acknowledgment-for-manufacturers: backlog
+  6-5-sober-email-design: backlog
+  6-6-user-notification-preferences: backlog
+  epic-6-retrospective: optional
+
+  # Epic 7: External User Experience (Magic Links & KYC)
+  epic-7: backlog
+  7-1-stripe-identity-kyc-verification: backlog
+  7-2-consultation-response-form: backlog
+  7-3-electronic-nda-signature: backlog
+  7-4-rgpd-consent-collection: backlog
+  7-5-deadline-behavior-display: backlog
+  7-6-progressive-expert-mode-for-investors: backlog
+  epic-7-retrospective: optional
+
+  # Epic 8: Administration & Platform Configuration
+  epic-8: backlog
+  8-1-project-creation-wizard: backlog
+  8-2-planning-import-excel-ms-project: backlog
+  8-3-agent-ia-alert-threshold-configuration: backlog
+  8-4-safewire-template-pre-configuration: backlog
+  8-5-dashboard-customization-by-profile: backlog
+  8-6-agent-ia-context-pre-training: backlog
+  8-7-external-service-health-monitoring: backlog
+  epic-8-retrospective: optional
+
+  # Epic 9: Internationalization (FR/EN)
+  epic-9: backlog
+  9-1-language-selection-interface: backlog
+  9-2-french-ui-translation: backlog
+  9-3-english-ui-translation: backlog
+  9-4-agent-ia-language-aware-responses: backlog
+  9-5-localized-email-notifications: backlog
+  9-6-bilingual-document-templates: backlog
+  epic-9-retrospective: optional
+
+  # Epic 10: RGPD Compliance & Data Rights
+  epic-10: backlog
+  10-1-personal-data-export-portability: backlog
+  10-2-data-deletion-right-to-be-forgotten: backlog
+  10-3-ai-decision-explanation: backlog
+  10-4-rgpd-treatment-registry: backlog
+  10-5-differentiated-retention-periods: backlog
+  epic-10-retrospective: optional

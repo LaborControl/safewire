@@ -1,0 +1,148 @@
+# BMM Workflow Status - IOT START SAFEWIRE
+# Tracks progress through BMM methodology phases
+# Generated: 2026-01-16
+
+# STATUS DEFINITIONS:
+# ==================
+# Initial Status (before completion):
+#   - required: Must be completed to progress
+#   - optional: Can be completed but not required
+#   - recommended: Strongly suggested but not required
+#   - conditional: Required only if certain conditions met (e.g., if_has_ui)
+#   - skipped: Optional workflow that was not selected
+#
+# Completion Status:
+#   - {file-path}: File created/found (e.g., "docs/product-brief.md")
+
+# Project Configuration
+generated: "2026-01-16"
+project: "IOT START SAFEWIRE"
+project_type: "industrial-hardware"
+selected_track: "method"
+field_type: "greenfield"
+workflow_path: "method-greenfield"
+
+# Source Documents (provided by user)
+source_documents:
+  - path: "01_Synthese_Projet_Antivol_IRVE.pdf"
+    type: "project-synthesis"
+    description: "Synthèse complète du projet avec contexte, planning, budget, ROI"
+  - path: "02_CCTP_Antivol_IRVE.pdf"
+    type: "technical-specs"
+    description: "Cahier des Clauses Techniques Particulières - spécifications détaillées"
+  - path: "03_DCE_Antivol_IRVE.pdf"
+    type: "consultation-dossier"
+    description: "Dossier de Consultation des Entreprises"
+
+# Workflow Status by Phase
+workflow_status:
+
+  # ══════════════════════════════════════════════════════════════
+  # PHASE 1: ANALYSIS (Optional Discovery)
+  # ══════════════════════════════════════════════════════════════
+  phase_1_analysis:
+    name: "Analysis"
+    status: "complete"
+    workflows:
+
+      - id: "brainstorm-project"
+        name: "Brainstorming"
+        status: "_bmad-output/analysis/brainstorming-session-2026-01-16.md"
+        agent: "analyst"
+        command: "/bmad:core:workflows:brainstorming"
+        note: "Exploration créative et idéation - COMPLÉTÉ"
+
+      - id: "research"
+        name: "Research"
+        status: "skipped"
+        agent: "analyst"
+        command: "/bmad:bmm:workflows:research"
+        note: "Non sélectionné par l'utilisateur"
+
+      - id: "product-brief"
+        name: "Product Brief"
+        status: "skipped"
+        agent: "analyst"
+        command: "/bmad:bmm:workflows:create-product-brief"
+        note: "Non sélectionné par l'utilisateur"
+
+  # ══════════════════════════════════════════════════════════════
+  # PHASE 2: PLANNING
+  # ══════════════════════════════════════════════════════════════
+  phase_2_planning:
+    name: "Planning"
+    status: "complete"
+    workflows:
+
+      - id: "prd"
+        name: "Product Requirements Document"
+        status: "_bmad-output/planning-artifacts/prd.md"
+        agent: "pm"
+        command: "/bmad:bmm:workflows:prd"
+        output: "Product Requirements Document avec 73 FRs et 55 NFRs - COMPLÉTÉ"
+
+      - id: "create-ux-design"
+        name: "UX Design"
+        status: "_bmad-output/planning-artifacts/ux-design-specification.md"
+        agent: "ux-designer"
+        command: "/bmad:bmm:workflows:create-ux-design"
+        note: "UX Design Specification 14 étapes - COMPLÉTÉ"
+
+  # ══════════════════════════════════════════════════════════════
+  # PHASE 3: SOLUTIONING
+  # ══════════════════════════════════════════════════════════════
+  phase_3_solutioning:
+    name: "Solutioning"
+    status: "in_progress"
+    workflows:
+
+      - id: "create-architecture"
+        name: "Architecture"
+        status: "_bmad-output/planning-artifacts/architecture.md"
+        agent: "architect"
+        command: "/bmad:bmm:workflows:create-architecture"
+        output: "Architecture Decision Document 8 étapes - COMPLÉTÉ"
+
+      - id: "create-epics-and-stories"
+        name: "Epics & Stories"
+        status: "required"
+        agent: "pm"
+        command: "/bmad:bmm:workflows:create-epics-and-stories"
+        note: "Découpage PRD en epics et stories implémentables"
+
+      - id: "test-design"
+        name: "Test Design"
+        status: "optional"
+        agent: "tea"
+        command: "/bmad:bmm:workflows:testarch-test-design"
+        note: "Évaluation de testabilité système"
+
+      - id: "implementation-readiness"
+        name: "Implementation Readiness Check"
+        status: "required"
+        agent: "architect"
+        command: "/bmad:bmm:workflows:check-implementation-readiness"
+        note: "Validation PRD + Architecture + Epics avant implémentation"
+
+  # ══════════════════════════════════════════════════════════════
+  # PHASE 4: IMPLEMENTATION
+  # ══════════════════════════════════════════════════════════════
+  phase_4_implementation:
+    name: "Implementation"
+    status: "pending"
+    workflows:
+
+      - id: "sprint-planning"
+        name: "Sprint Planning"
+        status: "required"
+        agent: "sm"
+        command: "/bmad:bmm:workflows:sprint-planning"
+        note: "Crée le plan de sprint - suivi dans sprint-status.yaml"
+
+# Next Action
+next_workflow:
+  id: "create-epics-and-stories"
+  name: "Epics & Stories"
+  agent: "pm"
+  command: "/bmad:bmm:workflows:create-epics-and-stories"
+  note: "Découpage PRD + Architecture en epics et stories implémentables"

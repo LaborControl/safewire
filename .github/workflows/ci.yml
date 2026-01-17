@@ -1,0 +1,65 @@
+# =============================================================================
+# SAFEWIRE CI Pipeline
+# =============================================================================
+# Runs on all pushes to main and pull requests
+# Executes: lint, typecheck, unit tests
+#
+# Required for AC1, AC2, AC3, AC8
+# =============================================================================
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# Cancel in-progress runs for the same branch
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: "20"
+
+jobs:
+  ci:
+    name: Lint, Type Check, Test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: safewire-app
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "npm"
+          cache-dependency-path: safewire-app/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run ESLint
+        run: npm run lint
+
+      - name: Run TypeScript type check
+        run: npm run typecheck
+
+      - name: Run unit tests
+        run: npm run test -- --ci --coverage --passWithNoTests
+        env:
+          CI: true
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coverage-report
+          path: safewire-app/coverage/
+          retention-days: 7

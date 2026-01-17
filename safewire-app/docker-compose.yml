@@ -1,0 +1,26 @@
+# Local Development Database Configuration
+# Run: docker compose up -d
+# Stop: docker compose down
+# Reset: docker compose down -v (removes data)
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: safewire-postgres
+    environment:
+      POSTGRES_USER: safewire
+      POSTGRES_PASSWORD: safewire_dev
+      POSTGRES_DB: safewire
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U safewire"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
