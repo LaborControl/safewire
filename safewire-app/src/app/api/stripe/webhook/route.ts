@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
 import { env } from "@/env.mjs";
-import { db, users } from "@/lib/schema";
+import { getDb, users } from "@/lib/schema";
 import { stripeServer } from "@/lib/stripe";
 
 // Force dynamic rendering - skip static generation at build time
@@ -45,7 +45,7 @@ const webhookHandler = async (req: NextRequest) => {
 
     switch (event.type) {
       case "customer.subscription.created":
-        await db
+        await getDb()
           .update(users)
           .set({ isActive: true })
           .where(eq(users.stripeCustomerId, subscription.customer as string));

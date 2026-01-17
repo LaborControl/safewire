@@ -5,11 +5,21 @@ import { Adapter } from "next-auth/adapters";
 import GitHubProvider from "next-auth/providers/github";
 
 import { env } from "@/env.mjs";
-import { db, users } from "@/lib/schema";
+import { getDb, users } from "@/lib/schema";
 import { stripeServer } from "@/lib/stripe";
 
+/**
+ * Get adapter - returns DrizzleAdapter at runtime, undefined at build time
+ */
+function getAdapter(): Adapter | undefined {
+  if (process.env.SKIP_ENV_VALIDATION === "true") {
+    return undefined;
+  }
+  return DrizzleAdapter(getDb()) as Adapter;
+}
+
 export const { auth, handlers, signIn, signOut } = NextAuth({
-  adapter: DrizzleAdapter(db) as Adapter,
+  adapter: getAdapter(),
   providers: [
     GitHubProvider({
       clientId: env.GITHUB_ID,
@@ -37,7 +47,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
           name: user.name,
         })
         .then(async (customer) =>
-          db
+          getDb()
             .update(users)
             .set({ stripeCustomerId: customer.id })
             .where(eq(users.id, user.id!)),

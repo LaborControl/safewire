@@ -10,18 +10,15 @@ import { drizzle, type PostgresJsDatabase } from "drizzle-orm/postgres-js";
 import type { AdapterAccountType } from "next-auth/adapters";
 import postgres from "postgres";
 
+// Lazy-initialized database connection
+let _db: PostgresJsDatabase | null = null;
+
 /**
- * Database connection
- * During build time (SKIP_ENV_VALIDATION=true), returns a mock db
- * At runtime, throws if DATABASE_URL is not configured
+ * Get database connection (lazy initialization)
+ * Throws error if DATABASE_URL is not configured
  */
-function createDbClient(): PostgresJsDatabase {
-  // During build time, return a placeholder (routes are marked as dynamic)
-  if (process.env.SKIP_ENV_VALIDATION === "true") {
-    // Return a minimal mock that won't be used at build time
-    // since routes are marked with `export const dynamic = 'force-dynamic'`
-    return {} as PostgresJsDatabase;
-  }
+export function getDb(): PostgresJsDatabase {
+  if (_db) return _db;
 
   const connectionString = process.env.DATABASE_URL;
   if (!connectionString) {
@@ -29,11 +26,21 @@ function createDbClient(): PostgresJsDatabase {
       "DATABASE_URL environment variable is not set. Please configure your database connection."
     );
   }
+
   const sql = postgres(connectionString);
-  return drizzle(sql);
+  _db = drizzle(sql);
+  return _db;
 }
 
-export const db = createDbClient();
+/**
+ * Legacy export - proxies to getDb() for lazy initialization
+ * @deprecated Use getDb() directly for explicit lazy loading
+ */
+export const db = new Proxy({} as PostgresJsDatabase, {
+  get(_target, prop) {
+    return getDb()[prop as keyof PostgresJsDatabase];
+  },
+});
 
 export const users = pgTable("users", {
   id: text("id")
