@@ -1,6 +1,6 @@
 # Story 0.3: Setup CI/CD Pipeline
 
-Status: in-progress
+Status: completed
 
 ## Story
 
@@ -41,19 +41,19 @@ so that **code is automatically tested and deployed on push**.
   - [x] Deploy to Scaleway Serverless Containers
   - [x] Configure health check for zero-downtime
 
-- [ ] Task 4: Configure GitHub Secrets (AC: 7)
-  - [ ] MANUAL: Create secrets in GitHub repository settings
-  - [ ] Required secrets: `SCW_ACCESS_KEY`, `SCW_SECRET_KEY`, `SCW_CONTAINER_ID`
-  - [ ] Required secrets: `DATABASE_URL` (production connection string)
-  - [ ] Required secrets: `NEXTAUTH_SECRET`, `NEXTAUTH_URL`
+- [x] Task 4: Configure GitHub Secrets (AC: 7)
+  - [x] MANUAL: Create secrets in GitHub repository settings
+  - [x] Required secrets: `SCW_ACCESS_KEY`, `SCW_SECRET_KEY`, `SCW_CONTAINER_ID`
+  - [x] Required secrets: `DATABASE_URL` (production connection string)
+  - [x] Required secrets: `NEXTAUTH_SECRET`, `NEXTAUTH_URL`
   - [x] Document all required secrets in workflow files
 
-- [ ] Task 5: Test and verify pipeline (AC: 1-8)
-  - [ ] Push a test commit to verify CI runs
-  - [ ] Verify all checks pass (lint, typecheck, test)
-  - [ ] Verify Docker image is built successfully
-  - [ ] Verify deployment to Scaleway works
-  - [ ] Test zero-downtime by monitoring during deploy
+- [x] Task 5: Test and verify pipeline (AC: 1-8)
+  - [x] Push a test commit to verify CI runs
+  - [x] Verify all checks pass (lint, typecheck, test)
+  - [x] Verify Docker image is built successfully
+  - [x] Verify deployment to Scaleway works
+  - [x] Test zero-downtime by monitoring during deploy
 
 ## Dev Notes
 
@@ -188,8 +188,36 @@ None
 
 ### Completion Notes List
 
+1. CI workflow created with lint, typecheck, and test steps
+2. Docker multi-stage build with Next.js standalone output (~100MB image)
+3. CD workflow deploys to Scaleway Serverless Containers
+4. Lazy initialization pattern used for database and Stripe to allow build without runtime env vars
+5. `export const dynamic = 'force-dynamic'` added to API routes for SSG compatibility
+6. GitHub secrets configured via `gh secret set` command
+7. Scaleway resources created: Container Registry namespace, Serverless Container, Database user
+8. Health endpoint at `/api/health` returns `{"status":"healthy",...}`
+
+**Deployed Application URL:** https://safewirewigqehem-safewire-app.functions.fnc.fr-par.scw.cloud
+
 ### File List
+
+**Created:**
+- `.github/workflows/ci.yml` - CI workflow (lint, typecheck, test)
+- `.github/workflows/deploy.yml` - CD workflow (build, push, deploy)
+- `safewire-app/Dockerfile` - Multi-stage production Docker image
+- `safewire-app/.dockerignore` - Docker build exclusions
+- `safewire-app/src/app/api/health/route.ts` - Health check endpoint
+
+**Modified:**
+- `safewire-app/next.config.ts` - Added `output: "standalone"`
+- `safewire-app/src/env.mjs` - Made Stripe/OAuth vars optional, added skipValidation
+- `safewire-app/src/lib/schema.ts` - Lazy database initialization with getDb()
+- `safewire-app/src/lib/stripe.ts` - Lazy Stripe client initialization
+- `safewire-app/src/lib/auth.ts` - Conditional adapter for build compatibility
+- `safewire-app/src/lib/site-config.ts` - Updated branding to SAFEWIRE
+- `safewire-app/src/app/api/auth/[...nextauth]/route.ts` - Added dynamic export
+- `safewire-app/src/app/api/stripe/webhook/route.ts` - Added dynamic export, use getDb()
 
 ---
 
-_Story created: 2026-01-17 | Epic: 0 - Foundation & Infrastructure Setup_
+_Story created: 2026-01-17 | Completed: 2026-01-17 | Epic: 0 - Foundation & Infrastructure Setup_
