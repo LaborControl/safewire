@@ -11,10 +11,18 @@ import type { AdapterAccountType } from "next-auth/adapters";
 import postgres from "postgres";
 
 /**
- * Lazy-initialized database connection
- * Throws error if DATABASE_URL is not configured at runtime
+ * Database connection
+ * During build time (SKIP_ENV_VALIDATION=true), returns a mock db
+ * At runtime, throws if DATABASE_URL is not configured
  */
 function createDbClient(): PostgresJsDatabase {
+  // During build time, return a placeholder (routes are marked as dynamic)
+  if (process.env.SKIP_ENV_VALIDATION === "true") {
+    // Return a minimal mock that won't be used at build time
+    // since routes are marked with `export const dynamic = 'force-dynamic'`
+    return {} as PostgresJsDatabase;
+  }
+
   const connectionString = process.env.DATABASE_URL;
   if (!connectionString) {
     throw new Error(
@@ -25,17 +33,7 @@ function createDbClient(): PostgresJsDatabase {
   return drizzle(sql);
 }
 
-// Lazy initialization - only create connection when accessed
-let _db: PostgresJsDatabase | null = null;
-
-export const db: PostgresJsDatabase = new Proxy({} as PostgresJsDatabase, {
-  get(_target, prop) {
-    if (!_db) {
-      _db = createDbClient();
-    }
-    return _db[prop as keyof PostgresJsDatabase];
-  },
-});
+export const db = createDbClient();
 
 export const users = pgTable("users", {
   id: text("id")

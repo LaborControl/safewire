@@ -6,6 +6,9 @@ import { env } from "@/env.mjs";
 import { db, users } from "@/lib/schema";
 import { stripeServer } from "@/lib/stripe";
 
+// Force dynamic rendering - skip static generation at build time
+export const dynamic = "force-dynamic";
+
 const webhookHandler = async (req: NextRequest) => {
   // Return early if Stripe is not configured
   if (!env.STRIPE_WEBHOOK_SECRET_KEY) {
