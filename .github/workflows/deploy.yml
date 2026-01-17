@@ -142,8 +142,12 @@ jobs:
         env:
           SCW_SECRET_KEY: ${{ secrets.SCW_SECRET_KEY }}
           CONTAINER_ID: ${{ secrets.SCW_CONTAINER_ID }}
-          IMAGE_TAG: ${{ github.sha }}
+          FULL_SHA: ${{ github.sha }}
         run: |
+          # Use short SHA (7 chars) to match Docker metadata action tags
+          IMAGE_TAG="${FULL_SHA:0:7}"
+          echo "Deploying image tag: $IMAGE_TAG"
+
           # Update the container with the new image
           scw container container update \
             "$CONTAINER_ID" \
